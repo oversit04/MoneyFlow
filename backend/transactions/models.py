@@ -1,9 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Test(models.Model):
-    test = models.CharField(max_length=50)
-
 class Category(models.Model):
     TYPE_CHOICES = [('income', 'Income'), ('expense', 'Expense')]
 

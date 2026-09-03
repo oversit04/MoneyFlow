@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics  
-from .serializers import UserSerializer, CategorySerializer
+from .serializers import UserSerializer, CategorySerializer, TransactionSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Category, Transaction
 # Create your views here.
@@ -22,6 +22,7 @@ class CategoryListCreate(generics.ListCreateAPIView):
     
     def perform_create(self, serializer):
         serializer.save(user = self.request.user)
+
 # แก้ไข กับ ลบ  RetrieveUpdateDestroyAPIView
 class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializer
@@ -31,5 +32,20 @@ class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
         user = self.request.user
         return Category.objects.filter(user=user)
 
+class TransactionListCreate(generics.ListCreateAPIView):
+    serializer_class = TransactionSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        return Transaction.objects.filter(user = self.request.user)
+        
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
+    
+class TransactionDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = TransactionSerializer
+    permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        return Transaction.objects.filter(user = self.request.user)
     
