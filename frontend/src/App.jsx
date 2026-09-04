@@ -1,13 +1,37 @@
 import { useState } from 'react'
-
-import './App.css'
-
+import { BrowserRouter, Routes, Route, Navigate  } from 'react-router-dom'
+import ProenctedRout from './components/ProenctedRout'
+import Login from './components/pages/Login'
+import NotFound from './components/pages/NotFound'
+import Home from './components/pages/Home'
+import Register from './components/pages/Register'
 function App() {
-  const [count, setCount] = useState(0)
+
+  const Logout= ()=>{
+    localStorage.clear()
+    return <Navigate to ="/login"/>
+  }
 
   return (
     <>
-     <h1 className='bg-red-300'>sss</h1>
+    <BrowserRouter>
+      <Routes>
+
+        <Route
+        path='/home'
+        element={
+          <ProenctedRout>
+            <Home/>
+          </ProenctedRout>
+        }        
+        />
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/register' element ={<Register/>}/>
+        <Route path='/logout' element ={<Logout/>}/>
+        <Route path='*' element={<NotFound/>}/>
+      </Routes>
+    </BrowserRouter>
+    
     </>
   )
 }
